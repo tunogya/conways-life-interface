@@ -21,9 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
   })
 
   return (
-    <div className="px-2 sm:px-0 w-screen h-screen relative">
+    <div className="w-screen h-screen relative">
       <Tab.Group>
-        <Tab.List className="flex space-x-1 bg-white absolute w-full">
+        <Tab.List className="flex bg-white space-x-1 absolute w-full border-b-2 border-black">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   'w-[160px] rounded-tl-lg rounded-tr-lg py-2 text-sm font-medium leading-5 text-black',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                   selected
-                    ? 'bg-gray-200 font-bold'
+                    ? 'bg-black text-white'
                     : ''
                 )
               }
@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
           ))}
         </Tab.List>
       </Tab.Group>
-      <div className={'pt-14 py-6 px-10 h-full w-full'}>
+      <div className={'pt-14 py-6 px-10 h-full w-full border-2 border-black'}>
         <Component {...pageProps} />
       </div>
     </div>
