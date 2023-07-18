@@ -1,27 +1,21 @@
 export default function Home() {
 
   return (
-    <div className="h-full flex gap-6">
-      <div className={'w-[400px] flex flex-col gap-6'}>
-        <div className={'w-full bg-white border-black border-2 h-full'}>
-          1
+    <div className="h-full flex items-center justify-center">
+      <div className={'w-[400px] p-8 bg-white flex flex-col gap-8 border-2 border-black'}>
+        <div className={'font-bold p-2 text-2xl text-center'}>
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          Conway's Game of Life
         </div>
-        <div className={'bg-white border-black border-2 h-[400px]'}>
-          2
+        <div className={'flex flex-col'}>
+          <button className={'bg-white px-6 py-4 border-2 border-black font-bold'}>
+            Connect Wallet
+          </button>
+          <button className={'bg-white px-6 py-4 font-bold'}>
+            Visitor Mode
+          </button>
         </div>
-      </div>
-      <div className={'w-full flex flex-col gap-6'}>
-        <div className={'w-full bg-white border-black border-2 h-full rounded'}>
-          1
-        </div>
-        <div className={'bg-white border-black border-2 h-[240px]'}>
-          2
-        </div>
-      </div>
-      <div className={'w-[140px] flex flex-col gap-6'}>
-        <div className={'w-full bg-white border-black border-2 h-full rounded'}>
-          1
-        </div>
+
       </div>
     </div>
   )
