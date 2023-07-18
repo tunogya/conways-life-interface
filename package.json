@@ -1,5 +1,5 @@
 {
-  "name": "game-of-life",
+  "name": "conways-life-interface",
   "version": "0.1.0",
   "private": true,
   "scripts": {
