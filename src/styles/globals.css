@@ -21,8 +21,8 @@ body {
 
 .pixel {
     background-image: linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000 100%), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000 100%);
-    background-size: 8px 8px;
-    background-position: 0 0, 4px 4px;
+    background-size: 4px 4px;
+    background-position: 0 0, 2px 2px;
     background-color: #fff;
     background-attachment: fixed;
 }
