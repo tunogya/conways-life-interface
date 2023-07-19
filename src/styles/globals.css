@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face{
+    font-family:'Minecraftia';
+    src: url('Minecraftia-Regular.ttf');
+}
+
 :root {
 }
 
@@ -16,6 +21,7 @@ body {
     background-position: 0 0, 4px 4px;
     background-color: #fff;
     background-attachment: fixed;
+    font-family: Minecraftia, serif;
 }
 
 
