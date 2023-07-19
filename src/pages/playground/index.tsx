@@ -3,8 +3,25 @@ export default function Game() {
   return (
     <div className="h-full flex gap-8">
       <div className={'w-[360px] flex flex-col gap-8 shrink-0'}>
-        <div className={'w-full flex-1 bg-white pixel-border p-2'}>
-          How to play?
+        <div className={'w-full flex-1 bg-white pixel-border p-2 overflow-y-auto'}>
+          <div>How to play?</div>
+          <div>This universe is composed of finite grids, the blue squares are normal cells, and the red squares are
+            alien cells. The two sides will compete on this piece of land. At the end of the game, the player with the
+            most surviving cells wins.
+            <br/>
+            <br/>
+            1. Birth: If and only if there are exactly three living cells of the same population around, new cells will
+            be born in the block. If the three surrounding cells are of different populations, no new cells are
+            generated.
+            <br/>
+            <br/>
+            2. Survival: A cell can survive if and only if it is surrounded by two or three other living cells, no more
+            and no less. Cells of other populations may be contained in two or three.
+            <br/>
+            <br/>
+            3. Death: A cell dies if it is surrounded by fewer than two (quarantined) and more than three
+            (overpopulated) arbitrary living cells.
+          </div>
         </div>
         <div className={'bg-white pixel-border h-[240px] p-2'}>
           Me
@@ -16,7 +33,7 @@ export default function Game() {
             <div className={'pt-2 bg-white px-8 z-10'}>Round x 0</div>
             <div className={'absolute h-[24px] w-full top-[8px] z-0 flex flex-col justify-between'}>
               {
-                [0,1,2,3,4,5,6].map(item => (
+                [0, 1, 2, 3, 4, 5, 6].map(item => (
                   <div key={item} className={'border-b-2 border-black w-full h-[2px]'}></div>
                 ))
               }
