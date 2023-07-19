@@ -2,8 +2,8 @@ export default function Home() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className={'w-[800px] h-[600px] p-8 bg-white flex flex-col gap-8 pixel-border justify-between'}>
-        <div className={'font-bold p-2 text-2xl text-center'}>
+      <div className={'w-[800px] h-[600px] py-20 bg-white flex flex-col gap-8 pixel-border justify-between'}>
+        <div className={'font-bold p-2 text-4xl text-center'}>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           Conway's Game of Life
         </div>
@@ -18,7 +18,7 @@ export default function Home() {
           </a>
         </div>
         <div className={'text-center'}>
-          © 2023, abandon inc.
+          Copyright©2023 Abandon inc. All rights reserved.
         </div>
       </div>
     </div>

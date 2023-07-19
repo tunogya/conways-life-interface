@@ -27,12 +27,12 @@ export default function Game() {
           </div>
         </div>
         <div className={'bg-white pixel-border flex-1 p-2'}>
-          Control
+          Control or Result
         </div>
       </div>
       <div className={'flex flex-col gap-8 flex-1 min-w-[200px]'}>
         <div className={'w-full bg-white pixel-border p-2 flex-1'}>
-          Look forward to...
+          Looking forward to...
         </div>
       </div>
     </div>
