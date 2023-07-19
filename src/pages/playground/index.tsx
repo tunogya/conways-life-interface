@@ -1,5 +1,7 @@
 export default function Game() {
 
+  const array = Array(16).fill([]).map(() => Array(16).fill('*'));
+
   return (
     <div className="h-full flex gap-8">
       <div className={'w-[360px] flex flex-col gap-8 shrink-0'}>
@@ -39,8 +41,19 @@ export default function Game() {
               }
             </div>
           </div>
-          <div>
-
+          <div className="grid grid-cols-16 gap-1 h-full">
+            {array.map((row, i) => (
+              <div key={i} className="flex h-full">
+                {row.map((num, j) => (
+                  <div
+                    key={j}
+                    className="w-full h-full flex items-center justify-center text-xs"
+                  >
+                    {num}
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
         <div className={'bg-white pixel-border flex-1 p-2'}>
