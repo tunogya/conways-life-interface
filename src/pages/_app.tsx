@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
           ))}
         </Tab.List>
       </Tab.Group>
-      <div className={'pt-16 py-8 px-12 h-full w-full border-2 border-black'}>
+      <div className={'pt-16 py-8 px-12 h-full w-full border-2 border-black pixel'}>
         <Component {...pageProps} />
       </div>
     </div>
