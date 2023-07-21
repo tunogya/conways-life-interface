@@ -1,3 +1,7 @@
+import Image from "next/image";
+import {LIFES} from "@/misc/lifes";
+import React from "react";
+
 export default function Game() {
 
   const array = Array(16).fill([]).map(() => Array(16).fill('*'));
@@ -5,9 +9,10 @@ export default function Game() {
   return (
     <div className="h-full flex gap-8">
       <div className={'w-[360px] flex flex-col gap-8 shrink-0'}>
-        <div className={'w-full flex-1 bg-white pixel-border p-2'}>
-          <div>How to play?</div>
-          <div>This universe is composed of finite grids, the blue squares are normal cells, and the red squares are
+        <div className={'w-full bg-white pixel-border p-2'}>
+          <div className={'font-bold'}>How to play?</div>
+          <div className={'text-sm'}>This universe is composed of finite grids, the blue squares are normal cells, and
+            the red squares are
             alien cells. The two sides will compete on this piece of land. At the end of the game, the player with the
             most surviving cells wins.
             <br/>
@@ -19,11 +24,11 @@ export default function Game() {
             Death: ( 0, 1, 4 ... 8 )
           </div>
         </div>
-        <div className={'bg-white pixel-border h-[360px] p-2'}>
+        <div className={'bg-white pixel-border grow p-2'}>
           Dashboard
         </div>
-        <div className={'bg-white pixel-border h-[40px] p-2'}>
-           Version: 0.1 beta
+        <div className={'bg-white pixel-border p-2'}>
+          Version: 0.1 beta
         </div>
       </div>
       <div className={'w-[600px] min-w-[600px] flex flex-col gap-8'}>
@@ -53,13 +58,32 @@ export default function Game() {
             ))}
           </div>
         </div>
-        <div className={'bg-white pixel-border flex-1 p-2'}>
-          Control or Result
+        <div className={'bg-white pixel-border grow p-2 space-x-4'}>
+          <button className={'pixel-border px-8 py-2'}>
+            Start
+          </button>
+          <button className={'pixel-border px-8 py-2'}>
+            Clean
+          </button>
+          <button className={'pixel-border px-8 py-2'}>
+            Revert
+          </button>
         </div>
       </div>
-      <div className={'flex flex-col gap-8 flex-1 min-w-[200px]'}>
-        <div className={'w-full bg-white pixel-border p-2 flex-1'}>
-          Looking forward to...
+      <div className={'flex gap-8 min-w-[240px] grow'}>
+        <div className={'w-full bg-white pixel-border flex flex-col divide-y divide-black space-y-2'}>
+          <div className={'p-2 space-y-2'}>
+            {/*实现网格的纵向对齐*/}
+            <div className={'flex justify-between'}>
+              {
+                LIFES.map((item) => (
+                  <div key={item.name} className={'flex flex-col'}>
+                    <Image width={'44'} height={'44'} src={item.url} alt={item.name}/>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
         </div>
       </div>
     </div>
