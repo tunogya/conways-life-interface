@@ -2,6 +2,7 @@ export const LIFES = [
   {
     name: 'Block',
     tags: ['Still lifes'],
+    tokens: 4,
     url: '/images/Block.png',
     shape: [
       [1, 1],
@@ -11,6 +12,7 @@ export const LIFES = [
   {
     name: 'Beehive',
     tags: ['Still lifes'],
+    tokens: 6,
     url: '/images/Beehive.png',
     shape: [
       [0, 1, 1, 0],
@@ -21,24 +23,28 @@ export const LIFES = [
   {
     name: 'Loaf',
     tags: ['Still lifes'],
+    tokens: 7,
     url: '/images/Loaf.png',
     shape: [],
   },
   {
     name: 'Boat',
     tags: ['Still lifes'],
+    tokens: 5,
     url: '/images/Boat.png',
     shape: [],
   },
   {
     name: 'Tub',
     tags: ['Still lifes'],
+    tokens: 4,
     url: '/images/Tub.png',
     shape: [],
   },
   {
     name: 'Blinker',
     tags: ['Oscillators'],
+    tokens: 3,
     url: '/images/Blinker.gif',
     period: 2,
     shape: [],
@@ -46,6 +52,7 @@ export const LIFES = [
   {
     name: 'Toad',
     tags: ['Oscillators'],
+    tokens: 6,
     url: '/images/Toad.gif',
     period: 2,
     shape: [],
@@ -53,6 +60,7 @@ export const LIFES = [
   {
     name: 'Beacon',
     tags: ['Oscillators'],
+    tokens: 6,
     url: '/images/Beacon.gif',
     period: 2,
     shape: [],
@@ -60,6 +68,7 @@ export const LIFES = [
   {
     name: 'Pulsar',
     tags: ['Oscillators'],
+    tokens: 56,
     url: '/images/Pulsar.gif',
     period: 2,
     shape: [],
@@ -67,6 +76,7 @@ export const LIFES = [
   {
     name: 'Penta-decathlon',
     tags: ['Oscillators'],
+    tokens: 22,
     url: '/images/Penta-decathlon.gif',
     period: 2,
     shape: [],
@@ -74,24 +84,28 @@ export const LIFES = [
   {
     name: 'Glider',
     tags: ['Spaceships'],
+    tokens: 5,
     url: '/images/Glider.gif',
     shape: [],
   },
   {
     name: 'Lightweight spaceship',
     tags: ['Spaceships'],
+    tokens: 9,
     url: '/images/LWSS.gif',
     shape: [],
   },
   {
     name: 'Middleweight spaceship',
     tags: ['Spaceships'],
+    tokens: 11,
     url: '/images/MWSS.gif',
     shape: [],
   },
   {
     name: 'Heavyweight spaceship',
     tags: ['Spaceships'],
+    tokens: 13,
     url: '/images/HWSS.gif',
     shape: [],
   }

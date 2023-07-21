@@ -1,10 +1,24 @@
 import Image from "next/image";
 import {LIFES} from "@/misc/lifes";
-import React from "react";
+import React, {useMemo} from "react";
 
 export default function Game() {
 
   const array = Array(16).fill([]).map(() => Array(16).fill('*'));
+
+  const GROUPED_LIFES = useMemo(() => {
+  //   对 LIFES 进行分组，根据 tokens， key = tokens， value 将为他们的数组
+    let result: Record<string, any> = {};
+    for (let i = 0; i < LIFES.length; i++) {
+      const life = LIFES[i];
+      const tokens = life.tokens.toString();
+      if (!result[tokens]) {
+        result[tokens] = [];
+      }
+      result[tokens].push(life);
+    }
+    return result;
+  }, [LIFES])
 
   return (
     <div className="h-full flex gap-8">
@@ -71,19 +85,23 @@ export default function Game() {
         </div>
       </div>
       <div className={'flex gap-8 min-w-[240px] grow'}>
-        <div className={'w-full bg-white pixel-border flex flex-col divide-y divide-black space-y-2'}>
-          <div className={'p-2 space-y-2'}>
-            {/*实现网格的纵向对齐*/}
-            <div className={'flex justify-between'}>
-              {
-                LIFES.map((item) => (
-                  <div key={item.name} className={'flex flex-col'}>
-                    <Image width={'44'} height={'44'} src={item.url} alt={item.name}/>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
+        <div className={'w-full bg-white pixel-border'}>
+          {
+            Object.keys(GROUPED_LIFES).map((key: string, i: number) => (
+              <div key={i} className={'flex flex-col border-b border-black'}>
+                <div className={'flex'}>
+                  <div className={'text-xs font-bold p-2'}>{key}</div>
+                  {
+                    GROUPED_LIFES[key].map((item: any, j: number) => (
+                      <div key={item.name} className={''}>
+                        <Image width={'44'} height={'44'} src={item.url} alt={item.name}/>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
