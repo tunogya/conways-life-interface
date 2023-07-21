@@ -46,7 +46,7 @@ export default function App({Component, pageProps}: AppProps) {
               key={category.name}
               className={({selected}) =>
                 classNames(
-                  'w-[160px] rounded-tl-lg rounded-tr-lg py-2 text-sm font-medium leading-5 text-black',
+                  'w-[160px] rounded-tl-lg rounded-tr-lg py-2 text-sm font-medium leading-5 text-black shrink-0',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                   selected
                     ? 'bg-black text-white'
@@ -59,7 +59,7 @@ export default function App({Component, pageProps}: AppProps) {
           ))}
         </Tab.List>
       </Tab.Group>
-      <div className={'pt-[44px] py-8 px-12 grow w-full pixel-border pixel overflow-y-auto'}>
+      <div className={'pt-[44px] pb-8 px-12 grow w-full pixel-border pixel overflow-y-auto'}>
         <Component {...pageProps} />
       </div>
     </div>
