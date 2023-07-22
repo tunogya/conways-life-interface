@@ -106,7 +106,7 @@ export default function Game() {
           </div>
         </div>
         <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 space-x-4 rounded-full'}>
-          <div className={'flex justify-around items-center h-full space-x-4'}>
+          <div className={'flex justify-around items-center space-x-4 h-[60px]'}>
             <button className={classNames(
               'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded px-4 py-2',
               'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
@@ -120,7 +120,7 @@ export default function Game() {
       <div className={'flex flex-col gap-8 min-w-[240px] grow'}>
         <div className={'w-full bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black grow'}>
           <div className={'p-2 border-b-2 border-black flex justify-between items-center'}>
-            <input className={'text-sm bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black px-4 py-2 rounded-full'}
+            <input className={'text-sm bg-white border-2 border-black px-4 py-2 rounded-full'}
                    placeholder={'Search...'}
             />
             <div>sort</div>
