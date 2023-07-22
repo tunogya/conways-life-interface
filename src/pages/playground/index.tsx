@@ -42,8 +42,8 @@ export default function Game() {
         <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black  grow p-2'}>
           Dashboard
         </div>
-        <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black  p-2'}>
-          Version: 0.1 beta
+        <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2'}>
+          Login
         </div>
       </div>
       <div className={'w-[600px] min-w-[600px] flex flex-col gap-8'}>
@@ -73,25 +73,37 @@ export default function Game() {
             ))}
           </div>
         </div>
-        <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black  grow p-2 space-x-4'}>
-          <button className={classNames(
-            'border-r-4 border-b-4 border-t-2 border-l-2 border-black  px-8 py-2 rounded-full',
-            'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
-          )}>
-            Start
-          </button>
-          <button className={classNames(
-            'border-r-4 border-b-4 border-t-2 border-l-2 border-black  px-8 py-2 rounded-full',
-            'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2'
-          )}>
-            Clean
-          </button>
-          <button className={classNames(
-            'border-r-4 border-b-4 border-t-2 border-l-2 border-black  px-8 py-2 rounded-full',
-            'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2'
-          )}>
-            Revert
-          </button>
+        <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black grow p-2 space-x-4'}>
+          <div className={'flex justify-around items-center h-full space-x-4'}>
+            <button className={classNames(
+              'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded-full h-[80px] w-[80px]',
+              'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
+              'flex items-center justify-center'
+            )}>
+              Start
+            </button>
+            <button className={classNames(
+              'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded-full h-[80px] w-[80px]',
+              'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
+              'flex items-center justify-center'
+            )}>
+              Clean
+            </button>
+            <button className={classNames(
+              'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded-full h-[80px] w-[80px]',
+              'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
+              'flex items-center justify-center'
+            )}>
+              Revert
+            </button>
+            <button className={classNames(
+              'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded-full h-[80px] w-[80px]',
+              'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
+              'flex items-center justify-center'
+            )}>
+              Save
+            </button>
+          </div>
         </div>
       </div>
       <div className={'flex gap-8 min-w-[240px] grow'}>
