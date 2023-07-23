@@ -2,7 +2,8 @@ import Image from "next/image";
 import {LIFES} from "@/misc/lifes";
 import React, {useMemo} from "react";
 import {classNames} from "@/lib/classNames";
-import {Disclosure, Transition} from "@headlessui/react";
+import {Disclosure} from "@headlessui/react";
+import { Stage, Layer, Rect } from 'react-konva';
 
 export default function Game() {
 
@@ -88,19 +89,12 @@ export default function Game() {
             </div>
           </div>
           <div className={'flex border-b-2 border-black'}>
-            <div className="grid grid-cols-16 gap-1 h-[600px] min-h-[600px] w-[600px] border-r-2 border-black">
-              {array.map((row, i) => (
-                <div key={i} className="flex h-full">
-                  {row.map((num, j) => (
-                    <div
-                      key={j}
-                      className="w-full h-full flex items-center justify-center text-xs"
-                    >
-                      {num}
-                    </div>
-                  ))}
-                </div>
-              ))}
+            <div className="border-r-2 border-black">
+              <Stage width={600} height={600}>
+                <Layer>
+                  <Rect width={10} height={10} x={20} y={40} fill="black"/>
+                </Layer>
+              </Stage>
             </div>
             <div className={'w-[40px] justify-center'}>
               <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
@@ -138,10 +132,9 @@ export default function Game() {
             />
             <div>sort</div>
           </div>
-
           {
             Object.keys(GROUPED_LIFES).map((key: string, i: number) => (
-              <div key={i} className={'flex flex-col border-b border-black'}>
+              <div key={i} className={'flex flex-col border-b-2 border-black'}>
                 <div className={'flex'}>
                   <div className={'text-xs font-bold p-2'}>{key}</div>
                   {
