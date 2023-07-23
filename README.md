@@ -1,5 +1,7 @@
 # conways-life-interface
 
+![info](./public/info.png)
+
 ## Description
 
 This is a simple interface for the Conway's Game of Life. It is written in next.js and uses the canvas API to draw the

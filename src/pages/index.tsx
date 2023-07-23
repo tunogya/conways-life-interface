@@ -1,4 +1,5 @@
 import {classNames} from "@/lib/classNames";
+import Image from "next/image";
 
 export default function Home() {
 
@@ -6,14 +7,13 @@ export default function Home() {
     <div className="h-full flex items-center justify-center">
       <div
         className={classNames(
-          'w-[800px] h-[600px] py-20 bg-white flex flex-col gap-8 justify-between',
+          'w-[800px] py-10 bg-white flex flex-col gap-8 justify-between',
           'border-r-4 border-b-4 border-t-2 border-l-2 border-black',
         )}>
-        <div className={'font-bold p-2 text-4xl text-center'}>
-          {/* eslint-disable-next-line react/no-unescaped-entities */}
-          Conway's Game of Life
+        <div className={'flex justify-center'}>
+          <Image src={'/info.png'} alt={'info'} width={'600'} height={'380'} />
         </div>
-        <div className={'flex flex-col items-center space-y-4'}>
+        <div className={'flex flex-col items-center space-y-4 h-[64px]'}>
           <a href={'/playground'}>
             <button
               className={classNames(
@@ -26,7 +26,7 @@ export default function Home() {
           </a>
         </div>
         <div className={'text-center'}>
-          Copyright©2023 Abandon inc. All rights reserved.
+          Copyright ©2023 abandon inc. All rights reserved.
         </div>
       </div>
     </div>
