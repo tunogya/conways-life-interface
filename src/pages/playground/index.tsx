@@ -89,12 +89,8 @@ export default function Game() {
             </div>
           </div>
           <div className={'flex border-b-2 border-black'}>
-            <div className="border-r-2 border-black">
-              <Stage width={600} height={600}>
-                <Layer>
-                  <Rect width={10} height={10} x={20} y={40} fill="black"/>
-                </Layer>
-              </Stage>
+            <div className="border-r-2 border-black w-[600px] h-[600px]">
+
             </div>
             <div className={'w-[40px] justify-center'}>
               <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
