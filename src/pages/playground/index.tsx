@@ -24,7 +24,7 @@ export default function Game() {
 
   return (
     <div className="h-full flex gap-8">
-      <div className={'w-[360px] flex flex-col gap-8 shrink-0'}>
+      <div className={'w-[300px] flex flex-col gap-8 shrink-0'}>
         <div className={classNames(
           'w-full bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2',
         )}>
@@ -74,7 +74,7 @@ export default function Game() {
           Connect Wallet
         </button>
       </div>
-      <div className={'w-[600px] min-w-[600px] flex flex-col gap-8'}>
+      <div className={'flex flex-col gap-8'}>
         <div
           className={'w-full h-full bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded-lg overflow-hidden'}>
           <div className={'h-[40px] shrink-0 flex justify-center border-b-2 border-black relative'}>
@@ -87,19 +87,32 @@ export default function Game() {
               }
             </div>
           </div>
-          <div className="grid grid-cols-16 gap-1 h-[600px] min-h-[600px] border-b-2 border-black">
-            {array.map((row, i) => (
-              <div key={i} className="flex h-full">
-                {row.map((num, j) => (
-                  <div
-                    key={j}
-                    className="w-full h-full flex items-center justify-center text-xs"
-                  >
-                    {num}
-                  </div>
-                ))}
-              </div>
-            ))}
+          <div className={'flex border-b-2 border-black'}>
+            <div className="grid grid-cols-16 gap-1 h-[600px] min-h-[600px] w-[600px] border-r-2 border-black">
+              {array.map((row, i) => (
+                <div key={i} className="flex h-full">
+                  {row.map((num, j) => (
+                    <div
+                      key={j}
+                      className="w-full h-full flex items-center justify-center text-xs"
+                    >
+                      {num}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className={'w-[40px] justify-center'}>
+              <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
+                <Image src={'/images/pencil.png'} alt={''} width={'28'} height={'28'} />
+              </button>
+              <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
+                <Image src={'/images/eraser.png'} alt={''} width={'28'} height={'28'} />
+              </button>
+              <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
+                <Image src={'/images/hands.png'} alt={''} width={'28'} height={'28'} />
+              </button>
+            </div>
           </div>
           <div className={'shrink-0 p-2 text-sm grow'}>
             x= 0, y=0
