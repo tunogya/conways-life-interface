@@ -69,7 +69,7 @@ export default function Game() {
           </div>
         </div>
         <button className={classNames(
-          'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 text-start',
+          'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 text-start h-[48px]',
           'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
         )}>
           Connect Wallet
