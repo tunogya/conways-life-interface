@@ -3,7 +3,6 @@ import {LIFES} from "@/misc/lifes";
 import React, {useMemo} from "react";
 import {classNames} from "@/lib/classNames";
 import {Disclosure} from "@headlessui/react";
-import { Stage, Layer, Rect } from 'react-konva';
 
 export default function Game() {
 
