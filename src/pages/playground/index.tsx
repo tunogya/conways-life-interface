@@ -1,12 +1,26 @@
 import Image from "next/image";
 import {LIFES} from "@/misc/lifes";
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import {classNames} from "@/lib/classNames";
 import {Disclosure} from "@headlessui/react";
 
-export default function Game() {
+const MAP = 'abcdefghijklmnop'
 
-  const array = Array(16).fill([]).map(() => Array(16).fill('*'));
+export default function Game() {
+  const [array, setArray] = React.useState<number[]>(new Array(256).fill(0))
+  const [cursor, setCursor] = useState({
+    x: 1,
+    y: 'a',
+  })
+
+  const chunks = useMemo(() => array.reduce((acc: any[], curr, index) => {
+    const chunkIndex = Math.floor(index / 16);
+    if (!acc[chunkIndex]) {
+      acc[chunkIndex] = [];
+    }
+    acc[chunkIndex].push(curr);
+    return acc;
+  }, []), [array])
 
   const GROUPED_LIFES = useMemo(() => {
     //   对 LIFES 进行分组，根据 tokens， key = tokens， value 将为他们的数组
@@ -88,23 +102,66 @@ export default function Game() {
             </div>
           </div>
           <div className={'flex border-b-2 border-black'}>
-            <div className="border-r-2 border-black w-[600px] h-[600px]">
-
+            <div className={'flex flex-col'}>
+              {
+                [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((item) => (
+                  <div key={item} className={'h-[37.5px] flex justify-center items-center text-xs'}>{item}</div>
+                )).reverse()
+              }
+            </div>
+            <div className="border-r-2 border-black">
+              <div className={'border-b border-l border-gray-500'}>
+                {chunks.map((chunk: number[], rowIndex: number) => (
+                  <div key={rowIndex}>
+                    {chunk.map((item, colIndex) => (
+                      <button
+                        key={colIndex}
+                        onMouseEnter={() => {
+                          setCursor({
+                            x: 16 - rowIndex,
+                            y: MAP[colIndex],
+                          })
+                        }}
+                        className={classNames(
+                          'w-[37.5px] h-[37.5px] border border-gray-500',
+                          item ? 'bg-black' : 'hover:bg-gray-500',
+                        )}
+                        onClick={() => {
+                          // 设置对应的array为1
+                          const newArray = [...array];
+                          newArray[rowIndex * 16 + colIndex] = 1;
+                          setArray(newArray);
+                        }}
+                      >
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className={'flex'}>
+                {
+                  MAP.split('').map((item, index) => (
+                    <div key={index} className={'w-[37.5px] pl-2 text-xs'}>
+                      {item}
+                    </div>
+                  ))
+                }
+              </div>
             </div>
             <div className={'w-[40px] justify-center'}>
               <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
-                <Image src={'/images/pencil.png'} alt={''} width={'28'} height={'28'} />
+                <Image src={'/images/pencil.png'} alt={''} width={'28'} height={'28'}/>
               </button>
               <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
-                <Image src={'/images/eraser.png'} alt={''} width={'28'} height={'28'} />
+                <Image src={'/images/eraser.png'} alt={''} width={'28'} height={'28'}/>
               </button>
               <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
-                <Image src={'/images/hands.png'} alt={''} width={'28'} height={'28'} />
+                <Image src={'/images/hands.png'} alt={''} width={'28'} height={'28'}/>
               </button>
             </div>
           </div>
           <div className={'shrink-0 p-2 text-sm grow'}>
-            x= 0, y=0
+            ({cursor.x}, {cursor.y})
           </div>
         </div>
         <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 space-x-4 rounded-full'}>
