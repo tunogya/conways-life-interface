@@ -12,6 +12,7 @@ export default function Game() {
     x: 1,
     y: 'a',
   })
+  const [tool, setTool] = useState('pencil')
 
   const chunks = useMemo(() => array.reduce((acc: any[], curr, index) => {
     const chunkIndex = Math.floor(index / 16);
@@ -112,7 +113,7 @@ export default function Game() {
             <div className="border-r-2 border-black">
               <div className={'border-b border-l border-gray-500'}>
                 {chunks.map((chunk: number[], rowIndex: number) => (
-                  <div key={rowIndex}>
+                  <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item, colIndex) => (
                       <button
                         key={colIndex}
@@ -124,13 +125,17 @@ export default function Game() {
                         }}
                         className={classNames(
                           'w-[37.5px] h-[37.5px] border border-gray-500',
-                          item ? 'bg-black' : 'hover:bg-gray-500',
+                          item ? 'bg-black' : 'hover:bg-gray-400',
                         )}
                         onClick={() => {
-                          // 设置对应的array为1
                           const newArray = [...array];
-                          newArray[rowIndex * 16 + colIndex] = 1;
-                          setArray(newArray);
+                          if (tool === 'pencil') {
+                            newArray[rowIndex * 16 + colIndex] = 1;
+                            setArray(newArray);
+                          } else if (tool === 'eraser') {
+                            newArray[rowIndex * 16 + colIndex] = 0;
+                            setArray(newArray);
+                          }
                         }}
                       >
                       </button>
@@ -149,13 +154,25 @@ export default function Game() {
               </div>
             </div>
             <div className={'w-[40px] justify-center'}>
-              <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
+              <button
+                onClick={() => {
+                  setTool('pencil')
+                }}
+                className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/pencil.png'} alt={''} width={'28'} height={'28'}/>
               </button>
-              <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
+              <button
+                onClick={() => {
+                  setTool('eraser')
+                }}
+                className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/eraser.png'} alt={''} width={'28'} height={'28'}/>
               </button>
-              <button className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
+              <button
+                onClick={() => {
+                  setTool('hands')
+                }}
+                className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/hands.png'} alt={''} width={'28'} height={'28'}/>
               </button>
             </div>
