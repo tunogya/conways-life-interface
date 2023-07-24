@@ -3,26 +3,17 @@ import {LIFES} from "@/misc/lifes";
 import React, {useEffect, useMemo, useState} from "react";
 import {classNames} from "@/lib/classNames";
 import {Disclosure} from "@headlessui/react";
+import GameOfLife from "@/lib/GameOfLife";
 
 const MAP = 'abcdefghijklmnop'
 
 export default function Game() {
-  const [array, setArray] = React.useState<number[]>(new Array(256).fill(0))
-  const [cursor, setCursor] = useState({
-    x: -1,
-    y: -1,
-  })
+  // chunks 默认是一个空二维数组，默认值为0
+  const [chunks, setChunks] = React.useState<number[][]>(
+    Array(16).fill(0).map(() => Array(16).fill(0))
+  )
   const [tool, setTool] = useState('pencil')
   const [lock, setLock] = useState(false)
-
-  const chunks = useMemo(() => array.reduce((acc: any[], curr, index) => {
-    const chunkIndex = Math.floor(index / 16);
-    if (!acc[chunkIndex]) {
-      acc[chunkIndex] = [];
-    }
-    acc[chunkIndex].push(curr);
-    return acc;
-  }, []), [array])
 
   const GROUPED_LIFES = useMemo(() => {
     //   对 LIFES 进行分组，根据 tokens， key = tokens， value 将为他们的数组
@@ -125,16 +116,7 @@ export default function Game() {
               }
             </div>
             <div className="border-r-2 border-black">
-              <div
-                className={'border-b border-l border-gray-500'}
-                onMouseDown={(event) => {
-                  const {x, y} = cursor;
-                  const newArray = [...array];
-                  // @ts-ignore
-                  newArray[x * 16 + y] = 1;
-                  setArray(newArray);
-                }}
-              >
+              <div className={'border-b border-l border-gray-500'}>
                 {chunks.map((chunk: number[], rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item, colIndex) => (
@@ -142,13 +124,14 @@ export default function Game() {
                         key={colIndex}
                         onMouseEnter={() => {
                           if (lock) {
-                            const newArray = [...array];
                             if (tool === 'pencil') {
-                              newArray[rowIndex * 16 + colIndex] = 1;
-                              setArray(newArray);
+                              const newChunks = [...chunks];
+                              newChunks[rowIndex][colIndex] = 1;
+                              setChunks(newChunks);
                             } else if (tool === 'eraser') {
-                              newArray[rowIndex * 16 + colIndex] = 0;
-                              setArray(newArray);
+                              const newChunks = [...chunks];
+                              newChunks[rowIndex][colIndex] = 0;
+                              setChunks(newChunks);
                             }
                           }
                         }}
@@ -157,13 +140,14 @@ export default function Game() {
                           item ? 'bg-black' : 'hover:bg-gray-300',
                         )}
                         onClick={() => {
-                          const newArray = [...array];
                           if (tool === 'pencil') {
-                            newArray[rowIndex * 16 + colIndex] = 1;
-                            setArray(newArray);
+                            const newChunks = [...chunks];
+                            newChunks[rowIndex][colIndex] = 1;
+                            setChunks(newChunks);
                           } else if (tool === 'eraser') {
-                            newArray[rowIndex * 16 + colIndex] = 0;
-                            setArray(newArray);
+                            const newChunks = [...chunks];
+                            newChunks[rowIndex][colIndex] = 0;
+                            setChunks(newChunks);
                           }
                         }}
                       >
@@ -229,11 +213,18 @@ export default function Game() {
         </div>
         <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 space-x-4 rounded-full'}>
           <div className={'flex justify-around items-center space-x-4 h-[60px]'}>
-            <button className={classNames(
+            <button
+              className={classNames(
               'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded px-4 py-2',
               'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
               'flex items-center justify-center'
-            )}>
+            )}
+              onClick={async () => {
+                const game = new GameOfLife(chunks)
+                await game.run(1)
+                setChunks(game.grid)
+              }}
+            >
               Start
             </button>
           </div>
