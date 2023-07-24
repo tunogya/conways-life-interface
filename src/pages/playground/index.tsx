@@ -1,6 +1,6 @@
 import Image from "next/image";
 import {LIFES} from "@/misc/lifes";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {classNames} from "@/lib/classNames";
 import {Disclosure} from "@headlessui/react";
 
@@ -9,10 +9,11 @@ const MAP = 'abcdefghijklmnop'
 export default function Game() {
   const [array, setArray] = React.useState<number[]>(new Array(256).fill(0))
   const [cursor, setCursor] = useState({
-    x: 1,
-    y: 'a',
+    x: -1,
+    y: -1,
   })
   const [tool, setTool] = useState('pencil')
+  const [lock, setLock] = useState(false)
 
   const chunks = useMemo(() => array.reduce((acc: any[], curr, index) => {
     const chunkIndex = Math.floor(index / 16);
@@ -36,6 +37,19 @@ export default function Game() {
     }
     return result;
   }, [LIFES])
+
+  // 监听esc按键，如果按了，则设置lock为false
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLock(false)
+      }
+    }
+    document.addEventListener('keydown', handler)
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
 
   return (
     <div className="h-full flex gap-8">
@@ -105,27 +119,42 @@ export default function Game() {
           <div className={'flex border-b-2 border-black'}>
             <div className={'flex flex-col'}>
               {
-                [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((item) => (
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((item) => (
                   <div key={item} className={'h-[37.5px] flex justify-center items-center text-xs'}>{item}</div>
                 )).reverse()
               }
             </div>
             <div className="border-r-2 border-black">
-              <div className={'border-b border-l border-gray-500'}>
+              <div
+                className={'border-b border-l border-gray-500'}
+                onMouseDown={(event) => {
+                  const {x, y} = cursor;
+                  const newArray = [...array];
+                  // @ts-ignore
+                  newArray[x * 16 + y] = 1;
+                  setArray(newArray);
+                }}
+              >
                 {chunks.map((chunk: number[], rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item, colIndex) => (
                       <button
                         key={colIndex}
                         onMouseEnter={() => {
-                          setCursor({
-                            x: 16 - rowIndex,
-                            y: MAP[colIndex],
-                          })
+                          if (lock) {
+                            const newArray = [...array];
+                            if (tool === 'pencil') {
+                              newArray[rowIndex * 16 + colIndex] = 1;
+                              setArray(newArray);
+                            } else if (tool === 'eraser') {
+                              newArray[rowIndex * 16 + colIndex] = 0;
+                              setArray(newArray);
+                            }
+                          }
                         }}
                         className={classNames(
                           'w-[37.5px] h-[37.5px] border border-gray-500',
-                          item ? 'bg-black' : 'hover:bg-gray-400',
+                          item ? 'bg-black' : 'hover:bg-gray-300',
                         )}
                         onClick={() => {
                           const newArray = [...array];
@@ -156,20 +185,35 @@ export default function Game() {
             <div className={'w-[40px] justify-center'}>
               <button
                 onClick={() => {
+                  if (lock) {
+                    setLock(false)
+                  }
                   setTool('pencil')
+                }}
+                onDoubleClick={() => {
+                  setLock(true)
                 }}
                 className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/pencil.png'} alt={''} width={'28'} height={'28'}/>
               </button>
               <button
                 onClick={() => {
+                  if (lock) {
+                    setLock(false)
+                  }
                   setTool('eraser')
+                }}
+                onDoubleClick={() => {
+                  setLock(true)
                 }}
                 className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/eraser.png'} alt={''} width={'28'} height={'28'}/>
               </button>
               <button
                 onClick={() => {
+                  if (lock) {
+                    setLock(false)
+                  }
                   setTool('hands')
                 }}
                 className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
@@ -178,7 +222,9 @@ export default function Game() {
             </div>
           </div>
           <div className={'shrink-0 p-2 text-sm grow'}>
-            ({cursor.x}, {cursor.y})
+            {
+              lock && 'lock, press ‘Esc’ to unlock'
+            }
           </div>
         </div>
         <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 space-x-4 rounded-full'}>
