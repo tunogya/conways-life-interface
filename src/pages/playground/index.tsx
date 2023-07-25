@@ -9,7 +9,7 @@ import {Matrix, matrix, zeros} from "mathjs";
 import {to1dHilbertMatrixHex} from "@/lib/HilbertMatrix";
 
 export default function Game() {
-  const [chunks, setChunks] = useState<Matrix>(matrix(zeros(16,16)))
+  const [chunks, setChunks] = useState(matrix(zeros(16,16)).toArray())
   const [tool, setTool] = useState('pencil')
   const [lock, setLock] = useState(false)
 
@@ -115,7 +115,7 @@ export default function Game() {
             </div>
             <div className="border-r-2 border-black">
               <div className={'border-b border-l border-gray-500'}>
-                {chunks.toArray().map((chunk: any, rowIndex: number) => (
+                {chunks.map((chunk: any, rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item: number, colIndex: number) => (
                       <button
@@ -123,13 +123,13 @@ export default function Game() {
                         onMouseEnter={() => {
                           if (lock) {
                             if (tool === 'pencil') {
-                              const temp = chunks;
+                              const temp = matrix(chunks);
                               temp.set([rowIndex, colIndex], 1);
-                              setChunks(temp);
+                              setChunks(temp.toArray());
                             } else if (tool === 'eraser') {
-                              const temp = chunks;
+                              const temp = matrix(chunks);
                               temp.set([rowIndex, colIndex], 0);
-                              setChunks(temp);
+                              setChunks(temp.toArray());
                             }
                           }
                         }}
@@ -139,13 +139,13 @@ export default function Game() {
                         )}
                         onClick={() => {
                           if (tool === 'pencil') {
-                            const temp = chunks;
+                            const temp = matrix(chunks);
                             temp.set([rowIndex, colIndex], 1);
-                            setChunks(temp);
+                            setChunks(temp.toArray());
                           } else if (tool === 'eraser') {
-                            const temp = chunks;
+                            const temp = matrix(chunks);
                             temp.set([rowIndex, colIndex], 0);
-                            setChunks(temp);
+                            setChunks(temp.toArray());
                           }
                         }}
                       >
@@ -210,7 +210,7 @@ export default function Game() {
               }
             </div>
             <div>
-              {to1dHilbertMatrixHex(chunks)}
+              {to1dHilbertMatrixHex(matrix(chunks))}
             </div>
           </div>
         </div>
@@ -223,8 +223,8 @@ export default function Game() {
               'flex items-center justify-center'
             )}
               onClick={() => {
-                const game = new GameOfLife(chunks)
-                setChunks(game.once())
+                const game = new GameOfLife(matrix(chunks))
+                setChunks(game.once().toArray())
               }}
             >
               Start
