@@ -1,16 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {matrix, zeros} from "mathjs";
+import {Matrix, matrix, zeros} from "mathjs";
 import GameOfLife from "@/lib/GameOfLife";
 
 export const index = createSlice({
   name: 'matrix',
   initialState: {
     // previous matrix previous
-    previous: [] as any[],
+    previous: [] as Matrix[],
     // current matrix
-    present: matrix(zeros([16, 16])).toArray() as any[],
+    present: matrix(zeros([16, 16])) as Matrix,
     // next matrix previous
-    next: [] as any[],
+    next: [] as Matrix[],
   },
   reducers: {
     // set matrix to a clone of another matrix, will clear previous and next
@@ -66,12 +66,12 @@ export const index = createSlice({
         ...state.next,
         state.present,
       ]
-      state.present = state.previous.pop() || matrix(zeros([16, 16])).toArray();
+      state.present = state.previous.pop() || matrix(zeros([16, 16]));
       state.previous = state.previous.slice(0, -1);
     },
     // reset matrix to zeros, and clear all previous and next
     reset: (state) => {
-      state.present = matrix(zeros([16, 16])).toArray();
+      state.present = matrix(zeros([16, 16]));
       state.previous = [];
       state.next = [];
     },
@@ -81,7 +81,7 @@ export const index = createSlice({
         ...state.previous,
         state.present,
       ]
-      state.present = matrix(zeros([16, 16])).toArray();
+      state.present = matrix(zeros([16, 16]));
       state.next = [];
     },
     // draw a point, and add it to present matrix, clear  next, but keep previous
@@ -92,7 +92,7 @@ export const index = createSlice({
         ...state.previous,
         state.present,
       ]
-      state.present = matrix(state.present).set([row, col], 1).toArray();
+      state.present = matrix(state.present).set([row, col], 1);
     },
     erase: (state, action) => {
       const {row, col} = action.payload;
@@ -101,7 +101,7 @@ export const index = createSlice({
         ...state.previous,
         state.present,
       ]
-      state.present = matrix(state.present).set([row, col], 0).toArray();
+      state.present = matrix(state.present).set([row, col], 0);
     }
   }
 })

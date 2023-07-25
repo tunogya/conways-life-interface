@@ -115,7 +115,7 @@ export default function Game() {
             </div>
             <div className="border-r-2 border-black">
               <div className={'border-b border-l border-gray-500'}>
-                {pgData.present.map((chunk: any, rowIndex: number) => (
+                {pgData.present.toArray().map((chunk: number[], rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item: number, colIndex: number) => (
                       <button

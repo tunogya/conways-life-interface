@@ -44,14 +44,14 @@ class GameOfLife {
         this.grid.set([row, col], this.updateCell(row, col))
       }
     }
-    return this.grid.toArray();
+    return this.grid;
   }
 
   loop(iterations: number) {
     for (let i = 0; i < iterations; i++) {
       this.once();
     }
-    return this.grid.toArray();
+    return this.grid;
   }
 }
 
