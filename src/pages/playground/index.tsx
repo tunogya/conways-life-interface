@@ -2,9 +2,11 @@ import Image from "next/image";
 import {LIFES} from "@/misc/lifes";
 import React, {useEffect, useMemo, useState} from "react";
 import {classNames} from "@/lib/classNames";
+import "@/lib/HilbertMatrix";
 import {Disclosure} from "@headlessui/react";
 import GameOfLife from "@/lib/GameOfLife";
 import {Matrix, matrix, zeros} from "mathjs";
+import {to1dHilbertMatrixHex} from "@/lib/HilbertMatrix";
 
 export default function Game() {
   const [chunks, setChunks] = useState<Matrix>(matrix(zeros(16,16)))
@@ -113,9 +115,9 @@ export default function Game() {
             </div>
             <div className="border-r-2 border-black">
               <div className={'border-b border-l border-gray-500'}>
-                {chunks.toJSON().data.map((chunk: number[], rowIndex: number) => (
+                {chunks.toArray().map((chunk: any, rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
-                    {chunk.map((item, colIndex) => (
+                    {chunk.map((item: number, colIndex: number) => (
                       <button
                         key={colIndex}
                         onMouseEnter={() => {
@@ -202,9 +204,14 @@ export default function Game() {
             </div>
           </div>
           <div className={'shrink-0 p-2 text-sm grow'}>
-            {
-              lock && 'lock, press ‘Esc’ to unlock'
-            }
+            <div>
+              {
+                lock && 'lock, press ‘Esc’ to unlock'
+              }
+            </div>
+            <div>
+              {to1dHilbertMatrixHex(chunks)}
+            </div>
           </div>
         </div>
         <div className={'bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black p-2 space-x-4 rounded-full'}>

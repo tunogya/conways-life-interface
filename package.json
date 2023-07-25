@@ -17,6 +17,7 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
+    "hilbert-curve-ts": "^0.0.14",
     "immer": "^10.0.2",
     "mathjs": "^11.9.1",
     "next": "13.4.10",

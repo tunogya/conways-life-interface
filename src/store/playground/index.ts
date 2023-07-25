@@ -1,62 +1,72 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {matrix, zeros} from "mathjs";
+import {Matrix, matrix, zeros} from "mathjs";
 import {produce} from "immer"
 import GameOfLife from "@/lib/GameOfLife";
 
 export const index = createSlice({
   name: 'matrix',
   initialState: {
-    // previous matrix history
-    previous: [],
+    // previous matrix previous
+    previous: [] as Matrix[],
     // current matrix
-    present: matrix(zeros([16, 16])),
-    // next matrix history
-    next: [],
+    present: matrix(zeros([16, 16])) as Matrix,
+    // next matrix previous
+    next: [] as Matrix[],
   },
   reducers: {
-    // set matrix to a clone of another matrix,  will clear previous and next
+    // set matrix to a clone of another matrix, will clear previous and next
     clone: (state, action) => {
-      state.current = matrix(action.payload);
+      state.present = matrix(action.payload);
       state.previous = [];
       state.next = [];
     },
     // iterate once, will replace present, and add old state to previous, do nothing on next
     once: (state) => {
-      state.history = produce(state.history, draft => draft.push(state.present));
-      let game = new GameOfLife(matrix(state.current));
+      state.previous = produce(state.previous, draft => {
+        draft.push(state.present)
+      });
+      let game = new GameOfLife(matrix(state.present));
       // game.once() will return a new matrix, and set it to present
-      state.current = game.once();
-      game = null;
+      state.present = game.once();
     },
     // loop many times, will replace present, and add old state to previous, do nothing on next
     loop: (state, action) => {
-      const times = action.times;
+      const times = action.payload;
       if (times < 0) {
         return
       }
-      let game = new GameOfLife(state.current);
+      let game = new GameOfLife(state.present);
       for (let i = 0; i < times; i++) {
-        state.previous = produce(state.previous, draft => draft.push(state.present))
+        state.previous = produce(state.previous, draft => {
+          draft.push(state.present)
+        })
         state.present = game.once();
       }
-      game = null;
     },
-    // fastForward, no intermediate process history
+    // fastForward, no intermediate process previous
     fastForward: (state, action) => {
-      const times = action.times;
+      const times = action.payload;
       if (times < 0) {
         return
       }
-      state.previous = produce(state.history, draft => draft.push(state.present))
-      let game = new GameOfLife(state.current);
-      state.current = game.loop(times);
-      game = null;
+      state.previous = produce(state.previous, draft => {
+        draft.push(state.present)
+      })
+      let game = new GameOfLife(state.present);
+      state.present = game.loop(times);
     },
-    // rewind current matrix to previous, and make present to next array
+    // rewind present matrix to previous, and make present to next array
     rewind: (state) => {
-      state.next = produce(state.next, draft => draft.push(state.present));
-      state.present = state.previous.pop();
-      state.previous = produce(state.previous, draft => draft.pop());
+      if (state.previous.length === 0) {
+        return
+      }
+      state.next = produce(state.next, draft => {
+        draft.push(state.present)
+      });
+      state.present = state.previous.pop() || matrix(zeros([16, 16]));
+      state.previous = produce(state.previous, draft => {
+        draft.pop()
+      });
     },
     // reset matrix to zeros, and clear all previous and next
     reset: (state) => {
@@ -72,7 +82,7 @@ export const index = createSlice({
       state.present = matrix(zeros([16, 16]));
       state.next = [];
     },
-    // draw a point, and add it to current matrix, clear  next, but keep previous
+    // draw a point, and add it to present matrix, clear  next, but keep previous
     draw: (state, action) => {
       const {row, col} = action.payload;
       state.next = [];
