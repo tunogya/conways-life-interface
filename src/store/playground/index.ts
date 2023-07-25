@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {Matrix, matrix, zeros} from "mathjs";
+import {matrix, zeros} from "mathjs";
 import {produce} from "immer"
 import GameOfLife from "@/lib/GameOfLife";
 
@@ -7,16 +7,16 @@ export const index = createSlice({
   name: 'matrix',
   initialState: {
     // previous matrix previous
-    previous: [] as Matrix[],
+    previous: [] as any[],
     // current matrix
-    present: matrix(zeros([16, 16])) as Matrix,
+    present: matrix(zeros([16, 16])).toArray() as any[],
     // next matrix previous
-    next: [] as Matrix[],
+    next: [] as any[],
   },
   reducers: {
     // set matrix to a clone of another matrix, will clear previous and next
     clone: (state, action) => {
-      state.present = matrix(action.payload);
+      state.present = action.payload;
       state.previous = [];
       state.next = [];
     },
@@ -25,7 +25,7 @@ export const index = createSlice({
       state.previous = produce(state.previous, draft => {
         draft.push(state.present)
       });
-      let game = new GameOfLife(matrix(state.present));
+      let game = new GameOfLife(state.present);
       // game.once() will return a new matrix, and set it to present
       state.present = game.once();
     },
@@ -63,14 +63,14 @@ export const index = createSlice({
       state.next = produce(state.next, draft => {
         draft.push(state.present)
       });
-      state.present = state.previous.pop() || matrix(zeros([16, 16]));
+      state.present = state.previous.pop() || matrix(zeros([16, 16])).toArray();
       state.previous = produce(state.previous, draft => {
         draft.pop()
       });
     },
     // reset matrix to zeros, and clear all previous and next
     reset: (state) => {
-      state.present = matrix(zeros([16, 16]));
+      state.present = matrix(zeros([16, 16])).toArray();
       state.previous = [];
       state.next = [];
     },
@@ -79,7 +79,7 @@ export const index = createSlice({
       state.previous = produce(state.previous, draft => {
         draft.push(state.present)
       });
-      state.present = matrix(zeros([16, 16]));
+      state.present = matrix(zeros([16, 16])).toArray();
       state.next = [];
     },
     // draw a point, and add it to present matrix, clear  next, but keep previous
@@ -90,7 +90,7 @@ export const index = createSlice({
         draft.push(state.present)
       })
       state.present = produce(state.present, draft => {
-        draft.set([row, col], 1)
+        draft = matrix(draft).set([row, col], 1).toArray()
       })
     },
     erase: (state, action) => {
@@ -100,7 +100,7 @@ export const index = createSlice({
         draft.push(state.present)
       })
       state.present = produce(state.present, draft => {
-        draft.set([row, col], 0)
+        draft = matrix(draft).set([row, col], 0).toArray()
       })
     }
   }

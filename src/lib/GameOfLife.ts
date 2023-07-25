@@ -1,17 +1,17 @@
-import {Matrix} from "mathjs";
+import {Matrix, matrix} from "mathjs";
 
 class GameOfLife {
-  public matrix: Matrix;
+  public grid: Matrix;
 
-  constructor(matrix: Matrix) {
-    this.matrix = matrix;
+  constructor(m: any) {
+    this.grid = matrix(m);
   }
 
   getCell(row: number, col: number) {
-    if (row < 0 || row >= this.matrix.size()[0] || col < 0 || col >= this.matrix.size()[1]) {
+    if (row < 0 || row >= this.grid.size()[0] || col < 0 || col >= this.grid.size()[1]) {
       return 0;
     }
-    return this.matrix.get([row, col])
+    return this.grid.get([row, col])
   }
 
   getLiveNeighbors(row: number, col: number) {
@@ -39,31 +39,31 @@ class GameOfLife {
   }
 
   once() {
-    for (let row = 0; row < this.matrix.size()[0]; row++) {
-      for (let col = 0; col < this.matrix.size()[1]; col++) {
-        this.matrix.set([row, col], this.updateCell(row, col))
+    for (let row = 0; row < this.grid.size()[0]; row++) {
+      for (let col = 0; col < this.grid.size()[1]; col++) {
+        this.grid.set([row, col], this.updateCell(row, col))
       }
     }
-    return this.matrix;
+    return this.grid.toArray();
   }
 
   loop(iterations: number) {
     for (let i = 0; i < iterations; i++) {
       this.once();
     }
-    return this.matrix;
+    return this.grid.toArray();
   }
 }
 
 export default GameOfLife;
 
 // 示例用法
-// const grid = matrix([
+// const grid = [
 //   [0, 1, 0, 0],
 //   [0, 0, 1, 1],
 //   [0, 1, 1, 0],
 //   [0, 0, 0, 0],
-// ]);
+// ];
 //
 // const game = new GameOfLife(grid);
 // game.loop(5);
