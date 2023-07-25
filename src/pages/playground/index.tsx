@@ -6,6 +6,7 @@ import "@/lib/HilbertMatrix";
 import {Disclosure} from "@headlessui/react";
 import {useSelector, useDispatch} from "react-redux";
 import {draw, erase, once} from "@/store/playground";
+import {to1dHilbertMatrixHex} from "@/lib/HilbertMatrix";
 
 export default function Game() {
   const pgData = useSelector((state: any) => state.playground)
@@ -209,9 +210,9 @@ export default function Game() {
               </button>
             </div>
           </div>
-          <div className={'shrink-0 p-2 text-sm grow overflow-y-scroll'}>
-            <div>
-              {tool}
+          <div className={'shrink-0 p-2 text-sm grow max-w-[640px]'}>
+            <div className={'h-full whitespace-pre-wrap text-ellipsis break-words overflow-x-scroll overflow-y-scroll'}>
+              {to1dHilbertMatrixHex(pgData.present)}
             </div>
           </div>
         </div>

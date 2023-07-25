@@ -18,6 +18,7 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "hilbert-curve-ts": "^0.0.14",
+    "keccak256": "^1.0.6",
     "mathjs": "^11.9.1",
     "next": "13.4.10",
     "postcss": "8.4.26",

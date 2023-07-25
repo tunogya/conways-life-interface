@@ -23,6 +23,13 @@ export function to1dHilbertMatrixHex(m: Matrix) {
   const binary = to1dHilbertMatrix(m)
     .toArray()
     .join('');
-  // return parseInt(binary, 2).toString(16);
+
+  const groups = []
+  for (let i = 0; i < binary.length; i += 32) {
+    const g = binary.slice(i, i + 32);
+    const hex = parseInt(g, 2).toString(16);
+    groups.push(hex.padStart(8, '0').slice(-8))
+  }
+  return '0x' + groups.join('')
 }
 
