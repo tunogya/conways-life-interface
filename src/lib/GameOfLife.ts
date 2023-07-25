@@ -2,21 +2,21 @@ import {Matrix} from "mathjs";
 
 class GameOfLife {
   public matrix: Matrix;
-  public size: number[];
+  private readonly size: number[];
 
   constructor(matrix: Matrix) {
     this.matrix = matrix;
     this.size = matrix.size()
   }
 
-  getCell(row: number, col: number) {
+  static getCell(row: number, col: number) {
     if (row < 0 || row >= this.size[0] || col < 0 || col >= this.size[1]) {
       return 0;
     }
     return this.matrix.get([row, col])
   }
 
-  getLiveNeighbors(row: number, col: number) {
+  static getLiveNeighbors(row: number, col: number) {
     let count = 0;
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
@@ -27,7 +27,7 @@ class GameOfLife {
     return count;
   }
 
-  updateCell(row: number, col: number) {
+  static updateCell(row: number, col: number) {
     const liveNeighbors = this.getLiveNeighbors(row, col);
     const cell = this.getCell(row, col);
 
