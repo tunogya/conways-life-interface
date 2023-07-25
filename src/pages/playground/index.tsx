@@ -96,7 +96,7 @@ export default function Game() {
         <div
           className={'w-full h-full bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded-lg overflow-hidden'}>
           <div className={'h-[40px] shrink-0 flex justify-center border-b-2 border-black relative'}>
-            <div className={'pt-2 bg-white px-8 z-10 font-bold'}>Round x 0</div>
+            <div className={'pt-2 bg-white px-8 z-10 font-bold'}>Round {pgData.previous.length}</div>
             <div className={'absolute h-[24px] w-full top-[8px] z-0 flex flex-col justify-between'}>
               {
                 [0, 1, 2, 3, 4, 5, 6].map(item => (
@@ -135,6 +135,23 @@ export default function Game() {
                             }
                           }
                         }}
+                        onMouseDown={() => {
+                          setLock(true)
+                          if (tool === 'pencil') {
+                            dispatch(draw({
+                              row: rowIndex,
+                              col: colIndex,
+                            }))
+                          } else if (tool === 'eraser') {
+                            dispatch(erase({
+                              row: rowIndex,
+                              col: colIndex,
+                            }))
+                          }
+                        }}
+                        onMouseUp={() => {
+                          setLock(false)
+                        }}
                         className={classNames(
                           'w-[37.5px] h-[37.5px] border border-gray-500',
                           item ? 'bg-black' : 'hover:bg-gray-300',
@@ -171,35 +188,20 @@ export default function Game() {
             <div className={'w-[40px] justify-center'}>
               <button
                 onClick={() => {
-                  if (lock) {
-                    setLock(false)
-                  }
                   setTool('pencil')
-                }}
-                onDoubleClick={() => {
-                  setLock(true)
                 }}
                 className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/pencil.png'} alt={''} width={'28'} height={'28'}/>
               </button>
               <button
                 onClick={() => {
-                  if (lock) {
-                    setLock(false)
-                  }
                   setTool('eraser')
-                }}
-                onDoubleClick={() => {
-                  setLock(true)
                 }}
                 className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
                 <Image src={'/images/eraser.png'} alt={''} width={'28'} height={'28'}/>
               </button>
               <button
                 onClick={() => {
-                  if (lock) {
-                    setLock(false)
-                  }
                   setTool('hands')
                 }}
                 className={'w-[40px] h-[40px] flex justify-center items-center border-b-2 border-black'}>
@@ -207,13 +209,9 @@ export default function Game() {
               </button>
             </div>
           </div>
-          <div className={'shrink-0 p-2 text-sm grow'}>
+          <div className={'shrink-0 p-2 text-sm grow overflow-y-scroll'}>
             <div>
-              {
-                lock && 'lock, press ‘Esc’ to unlock'
-              }
-            </div>
-            <div>
+              {tool}
             </div>
           </div>
         </div>
