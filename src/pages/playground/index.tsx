@@ -25,7 +25,7 @@ export default function Game() {
       result[tokens].push(life);
     }
     return result;
-  }, [LIFES])
+  }, [])
 
   // 监听esc按键，如果按了，则设置lock为false
   useEffect(() => {
