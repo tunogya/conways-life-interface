@@ -2,21 +2,19 @@ import {Matrix} from "mathjs";
 
 class GameOfLife {
   public matrix: Matrix;
-  private readonly size: number[];
 
   constructor(matrix: Matrix) {
     this.matrix = matrix;
-    this.size = matrix.size()
   }
 
-  static getCell(row: number, col: number) {
-    if (row < 0 || row >= this.size[0] || col < 0 || col >= this.size[1]) {
+  getCell(row: number, col: number) {
+    if (row < 0 || row >= this.matrix.size()[0] || col < 0 || col >= this.matrix.size()[1]) {
       return 0;
     }
     return this.matrix.get([row, col])
   }
 
-  static getLiveNeighbors(row: number, col: number) {
+  getLiveNeighbors(row: number, col: number) {
     let count = 0;
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
@@ -27,7 +25,7 @@ class GameOfLife {
     return count;
   }
 
-  static updateCell(row: number, col: number) {
+  updateCell(row: number, col: number) {
     const liveNeighbors = this.getLiveNeighbors(row, col);
     const cell = this.getCell(row, col);
 
@@ -41,8 +39,8 @@ class GameOfLife {
   }
 
   once() {
-    for (let row = 0; row < this.size[0]; row++) {
-      for (let col = 0; col < this.size[1]; col++) {
+    for (let row = 0; row < this.matrix.size()[0]; row++) {
+      for (let col = 0; col < this.matrix.size()[1]; col++) {
         this.matrix.set([row, col], this.updateCell(row, col))
       }
     }
