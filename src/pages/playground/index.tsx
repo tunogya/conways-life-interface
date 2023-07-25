@@ -4,14 +4,10 @@ import React, {useEffect, useMemo, useState} from "react";
 import {classNames} from "@/lib/classNames";
 import {Disclosure} from "@headlessui/react";
 import GameOfLife from "@/lib/GameOfLife";
-
-const MAP = 'abcdefghijklmnop'
+import {Matrix, matrix, zeros} from "mathjs";
 
 export default function Game() {
-  // chunks 默认是一个空二维数组，默认值为0
-  const [chunks, setChunks] = React.useState<number[][]>(
-    Array(16).fill(0).map(() => Array(16).fill(0))
-  )
+  const [chunks, setChunks] = useState<Matrix>(matrix(zeros(16,16)))
   const [tool, setTool] = useState('pencil')
   const [lock, setLock] = useState(false)
 
@@ -117,7 +113,7 @@ export default function Game() {
             </div>
             <div className="border-r-2 border-black">
               <div className={'border-b border-l border-gray-500'}>
-                {chunks.map((chunk: number[], rowIndex: number) => (
+                {chunks.toJSON().data.map((chunk: number[], rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item, colIndex) => (
                       <button
@@ -125,13 +121,13 @@ export default function Game() {
                         onMouseEnter={() => {
                           if (lock) {
                             if (tool === 'pencil') {
-                              const newChunks = [...chunks];
-                              newChunks[rowIndex][colIndex] = 1;
-                              setChunks(newChunks);
+                              const temp = chunks;
+                              temp.set([rowIndex, colIndex], 1);
+                              setChunks(temp);
                             } else if (tool === 'eraser') {
-                              const newChunks = [...chunks];
-                              newChunks[rowIndex][colIndex] = 0;
-                              setChunks(newChunks);
+                              const temp = chunks;
+                              temp.set([rowIndex, colIndex], 0);
+                              setChunks(temp);
                             }
                           }
                         }}
@@ -141,13 +137,13 @@ export default function Game() {
                         )}
                         onClick={() => {
                           if (tool === 'pencil') {
-                            const newChunks = [...chunks];
-                            newChunks[rowIndex][colIndex] = 1;
-                            setChunks(newChunks);
+                            const temp = chunks;
+                            temp.set([rowIndex, colIndex], 1);
+                            setChunks(temp);
                           } else if (tool === 'eraser') {
-                            const newChunks = [...chunks];
-                            newChunks[rowIndex][colIndex] = 0;
-                            setChunks(newChunks);
+                            const temp = chunks;
+                            temp.set([rowIndex, colIndex], 0);
+                            setChunks(temp);
                           }
                         }}
                       >
@@ -158,7 +154,7 @@ export default function Game() {
               </div>
               <div className={'flex'}>
                 {
-                  MAP.split('').map((item, index) => (
+                  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((item, index) => (
                     <div key={index} className={'w-[37.5px] pl-2 text-xs'}>
                       {item}
                     </div>
@@ -219,10 +215,9 @@ export default function Game() {
               'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
               'flex items-center justify-center'
             )}
-              onClick={async () => {
+              onClick={() => {
                 const game = new GameOfLife(chunks)
-                await game.run(1)
-                setChunks(game.grid)
+                setChunks(game.once())
               }}
             >
               Start

@@ -1,81 +1,71 @@
+import {Matrix} from "mathjs";
+
 class GameOfLife {
-  public grid: number[][];
-  public rows: number;
-  public cols: number;
-  constructor(grid: number[][]) {
-    this.grid = grid;
-    this.rows = grid.length;
-    this.cols = grid[0].length;
+  public matrix: Matrix;
+  public size: number[];
+
+  constructor(matrix: Matrix) {
+    this.matrix = matrix;
+    this.size = matrix.size()
   }
 
-  // get cell status
   getCell(row: number, col: number) {
-    if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
-      return 0; // 超出边界的细胞状态为死亡
+    if (row < 0 || row >= this.size[0] || col < 0 || col >= this.size[1]) {
+      return 0;
     }
-    return this.grid[row][col];
+    return this.matrix.get([row, col])
   }
 
-  // get live neighbors
   getLiveNeighbors(row: number, col: number) {
     let count = 0;
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
-        if (i === 0 && j === 0) continue; // 忽略当前细胞
+        if (i === 0 && j === 0) continue;
         count += this.getCell(row + i, col + j);
       }
     }
     return count;
   }
 
-  // update cell status based on live neighbors count.
-  // cell status: 0: dead, 1: live, 2: dead in next generation.
-  // live neighbors: 0: dead, 1: live, 2: dead in next generation.
-  // return: 0: dead, 1: live, 2: dead in next generation.
   updateCell(row: number, col: number) {
     const liveNeighbors = this.getLiveNeighbors(row, col);
     const cell = this.getCell(row, col);
 
     if (cell === 1 && (liveNeighbors < 2 || liveNeighbors > 3)) {
-      return 0; // 活细胞周围活细胞少于2个或多于3个，细胞死亡
+      return 0;
     } else if (cell === 0 && liveNeighbors === 3) {
-      return 1; // 死细胞周围活细胞恰好为3个，细胞复活
+      return 1;
     } else {
-      return cell; // 细胞状态不变
+      return cell;
     }
   }
 
-  // update grid
-  updateGrid() {
-    const newGrid = [];
-    for (let row = 0; row < this.rows; row++) {
-      const newRow = [];
-      for (let col = 0; col < this.cols; col++) {
-        newRow.push(this.updateCell(row, col));
+  once() {
+    for (let row = 0; row < this.size[0]; row++) {
+      for (let col = 0; col < this.size[1]; col++) {
+        this.matrix.set([row, col], this.updateCell(row, col))
       }
-      newGrid.push(newRow);
     }
-    this.grid = newGrid;
+    return this.matrix;
   }
 
-  // run iterations
-  run(iterations: number) {
+  loop(iterations: number) {
     for (let i = 0; i < iterations; i++) {
-      this.updateGrid();
+      this.once();
     }
+    return this.matrix;
   }
 }
 
 export default GameOfLife;
 
 // 示例用法
-// const grid = [
+// const grid = matrix([
 //   [0, 1, 0, 0],
-//   [0, 0, 1, 0],
-//   [1, 1, 1, 0],
-//   [0, 0, 0, 0]
-// ];
+//   [0, 0, 1, 1],
+//   [0, 1, 1, 0],
+//   [0, 0, 0, 0],
+// ]);
 //
 // const game = new GameOfLife(grid);
-// game.run(5);
-// console.log(game.grid);
+// game.loop(5);
