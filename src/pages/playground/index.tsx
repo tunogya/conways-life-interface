@@ -4,14 +4,14 @@ import React, {useEffect, useMemo, useState} from "react";
 import {classNames} from "@/lib/classNames";
 import "@/lib/HilbertMatrix";
 import {Disclosure} from "@headlessui/react";
-import GameOfLife from "@/lib/GameOfLife";
-import {Matrix, matrix, zeros} from "mathjs";
-import {to1dHilbertMatrixHex} from "@/lib/HilbertMatrix";
+import {useSelector, useDispatch} from "react-redux";
+import {draw, erase, once} from "@/store/playground";
 
 export default function Game() {
-  const [chunks, setChunks] = useState(matrix(zeros(16,16)).toArray())
+  const pgData = useSelector((state: any) => state.playground)
   const [tool, setTool] = useState('pencil')
   const [lock, setLock] = useState(false)
+  const dispatch = useDispatch();
 
   const GROUPED_LIFES = useMemo(() => {
     //   对 LIFES 进行分组，根据 tokens， key = tokens， value 将为他们的数组
@@ -115,7 +115,7 @@ export default function Game() {
             </div>
             <div className="border-r-2 border-black">
               <div className={'border-b border-l border-gray-500'}>
-                {chunks.map((chunk: any, rowIndex: number) => (
+                {pgData.present.map((chunk: any, rowIndex: number) => (
                   <div key={rowIndex} className={'shrink-0 min-w-[600px]'}>
                     {chunk.map((item: number, colIndex: number) => (
                       <button
@@ -123,13 +123,15 @@ export default function Game() {
                         onMouseEnter={() => {
                           if (lock) {
                             if (tool === 'pencil') {
-                              const temp = matrix(chunks);
-                              temp.set([rowIndex, colIndex], 1);
-                              setChunks(temp.toArray());
+                              dispatch(draw({
+                                row: rowIndex,
+                                col: colIndex,
+                              }))
                             } else if (tool === 'eraser') {
-                              const temp = matrix(chunks);
-                              temp.set([rowIndex, colIndex], 0);
-                              setChunks(temp.toArray());
+                              dispatch(erase({
+                                row: rowIndex,
+                                col: colIndex,
+                              }))
                             }
                           }
                         }}
@@ -139,13 +141,15 @@ export default function Game() {
                         )}
                         onClick={() => {
                           if (tool === 'pencil') {
-                            const temp = matrix(chunks);
-                            temp.set([rowIndex, colIndex], 1);
-                            setChunks(temp.toArray());
+                            dispatch(draw({
+                              row: rowIndex,
+                              col: colIndex,
+                            }))
                           } else if (tool === 'eraser') {
-                            const temp = matrix(chunks);
-                            temp.set([rowIndex, colIndex], 0);
-                            setChunks(temp.toArray());
+                            dispatch(erase({
+                              row: rowIndex,
+                              col: colIndex,
+                            }))
                           }
                         }}
                       >
@@ -210,7 +214,6 @@ export default function Game() {
               }
             </div>
             <div>
-              {to1dHilbertMatrixHex(matrix(chunks))}
             </div>
           </div>
         </div>
@@ -218,13 +221,12 @@ export default function Game() {
           <div className={'flex justify-around items-center space-x-4 h-[60px]'}>
             <button
               className={classNames(
-              'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded px-4 py-2',
-              'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
-              'flex items-center justify-center'
-            )}
+                'border-r-4 border-b-4 border-t-2 border-l-2 border-black rounded px-4 py-2',
+                'hover:border-2 active:border-t-4 active:border-l-4 active:border-b-2 active:border-r-2',
+                'flex items-center justify-center'
+              )}
               onClick={() => {
-                const game = new GameOfLife(matrix(chunks))
-                setChunks(game.once().toArray())
+                dispatch(once())
               }}
             >
               Start
@@ -232,7 +234,7 @@ export default function Game() {
           </div>
         </div>
       </div>
-      <div className={'flex flex-col gap-8 min-w-[240px] grow'}>
+      <div className={'flex flex-col gap-8 pr-12 min-w-[600px] grow'}>
         <div className={'w-full bg-white border-r-4 border-b-4 border-t-2 border-l-2 border-black grow'}>
           <div className={'p-2 border-b-2 border-black flex justify-between items-center'}>
             <input className={'text-sm bg-white border-2 border-black px-4 py-2 rounded-full'}
